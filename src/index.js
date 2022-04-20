@@ -1,17 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { createRoot } from "react-dom/client";
+import React from "react";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import LoginPage from "./LoginPage";
+import MainPage from "./MainPage";
+import { UserProvider, useUser } from "./contexts/UserContext";
+import { EmailProvider } from "./contexts/EmailContext";
+
+import "./index.css";
+
+function Root() {
+	const user = useUser();
+	return user ? <MainPage /> : <LoginPage />;
+}
+
+const root = createRoot(document.querySelector("#root"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+	<UserProvider>
+		<EmailProvider>
+			<Root />
+		</EmailProvider>
+	</UserProvider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
