@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
-import { login } from "./api";
-import { useUserActions } from "./contexts/UserContext";
+import React, { useState } from "react";
+import { login } from "../util/api";
+import { useUserActions } from "../contexts/UserContext";
 
 function LoginPage() {
 	const [error, setError] = useState(null);

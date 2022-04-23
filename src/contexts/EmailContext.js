@@ -1,6 +1,7 @@
 import React, { useContext, useReducer } from "react";
 import { useEffect } from "react";
-import { fetchEmails, fetchLatestEmails } from "../api";
+
+import { fetchEmails, fetchLatestEmails } from "../util/api";
 import { useNotify } from "./NotifyContext";
 import { useUser } from "./UserContext";
 

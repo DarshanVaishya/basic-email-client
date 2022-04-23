@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FAKE_USER } from "../api";
+import { FAKE_USER } from "../util/api";
 
 const UserContext = React.createContext();
 

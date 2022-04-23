@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useUser, useUserActions } from "./contexts/UserContext";
+import { useUser, useUserActions } from "../contexts/UserContext";
 
 const UserMenu = () => {
 	const [isMenuVisible, setMenuVisible] = useState(false);

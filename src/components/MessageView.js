@@ -1,5 +1,5 @@
 import React from "react";
-import { useEmail } from "./contexts/EmailContext";
+import { useEmail } from "../contexts/EmailContext";
 
 const MessageViewer = () => {
 	const { currentEmail, setCurrentEmail } = useEmail();

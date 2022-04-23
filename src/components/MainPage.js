@@ -1,5 +1,5 @@
 import React from "react";
-import { useEmail } from "./contexts/EmailContext";
+import { useEmail } from "../contexts/EmailContext";
 import Header from "./Header";
 import MessageList from "./MessageList";
 import MessageViewer from "./MessageView";

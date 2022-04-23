@@ -1,6 +1,6 @@
 import React from "react";
-import { useEmail } from "./contexts/EmailContext";
-import { useUser } from "./contexts/UserContext";
+import { useEmail } from "../contexts/EmailContext";
+import { useUser } from "../contexts/UserContext";
 
 function Email({ email, handleClick }) {
 	return (
