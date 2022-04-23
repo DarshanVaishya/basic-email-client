@@ -83,7 +83,7 @@ export function EmailProvider({ children }) {
 		};
 
 		let timer;
-		if (user) timer = setInterval(refresh, 1000);
+		if (user) timer = setInterval(refresh, 3000);
 		return () => clearInterval(timer);
 	}, [user]);
 
