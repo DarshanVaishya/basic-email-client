@@ -1,13 +1,20 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 
 const NotifyContext = createContext();
 
 export function NotifyProvider({ children }) {
 	const [messages, setMessages] = useState([]);
 
-	const removeMessage = (msg) => {
+	const removeMessage = useCallback((msg) => {
 		setMessages((messages) => messages.filter((m) => m !== msg));
-	};
+	}, []);
 
 	useEffect(() => {
 		const clearnup = () => {
@@ -19,7 +26,7 @@ export function NotifyProvider({ children }) {
 		return () => clearInterval(timer);
 	}, []);
 
-	const addMessage = (text) => {
+	const addMessage = useCallback((text) => {
 		setMessages((msg) => [
 			...msg,
 			{
@@ -28,12 +35,15 @@ export function NotifyProvider({ children }) {
 				addedAt: new Date().getTime(),
 			},
 		]);
-	};
+	}, []);
 
-	const value = {
-		messages,
-		addMessage,
-	};
+	const value = useMemo(
+		() => ({
+			messages,
+			addMessage,
+		}),
+		[messages, addMessage]
+	);
 
 	return (
 		<NotifyContext.Provider value={value}>

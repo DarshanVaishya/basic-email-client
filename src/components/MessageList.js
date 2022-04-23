@@ -1,15 +1,7 @@
 import React from "react";
 import { useEmail } from "../contexts/EmailContext";
 import { useUser } from "../contexts/UserContext";
-
-function Email({ email, handleClick }) {
-	return (
-		<li onClick={handleClick}>
-			<div className="subject">{email.subject}</div>
-			<div className="preview">{email.preview}</div>
-		</li>
-	);
-}
+import { Email } from "./Email";
 
 const MessageList = () => {
 	const user = useUser();
@@ -28,11 +20,7 @@ const MessageList = () => {
 			) : (
 				<ul>
 					{emails.map((email) => (
-						<Email
-							key={email.id}
-							email={email}
-							handleClick={() => setCurrentEmail(email)}
-						/>
+						<Email key={email.id} email={email} handleClick={setCurrentEmail} />
 					))}
 				</ul>
 			)}

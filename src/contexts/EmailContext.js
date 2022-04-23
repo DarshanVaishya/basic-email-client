@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from "react";
+import React, { useCallback, useContext, useMemo, useReducer } from "react";
 import { useEffect } from "react";
 
 import { fetchEmails, fetchLatestEmails } from "../util/api";
@@ -83,18 +83,24 @@ export function EmailProvider({ children }) {
 		};
 
 		let timer;
-		if (user) timer = setInterval(refresh, 3000);
+		if (user) timer = setInterval(refresh, 1000);
 		return () => clearInterval(timer);
 	}, [user]);
 
-	const setCurrentEmail = (email) => {
-		dispatch({ type: ACTIONS.SELECT_EMAIL, email });
-	};
+	const setCurrentEmail = useCallback(
+		(email) => {
+			dispatch({ type: ACTIONS.SELECT_EMAIL, email });
+		},
+		[dispatch]
+	);
 
-	const value = {
-		...state,
-		setCurrentEmail,
-	};
+	const value = useMemo(
+		() => ({
+			...state,
+			setCurrentEmail,
+		}),
+		[state, setCurrentEmail]
+	);
 
 	return (
 		<EmailContext.Provider value={value}>{children}</EmailContext.Provider>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { FAKE_USER } from "../util/api";
 
 const UserContext = React.createContext();
@@ -6,14 +6,17 @@ const UserContext = React.createContext();
 export function UserProvider({ children }) {
 	const [user, setUser] = useState(FAKE_USER);
 
-	const login = (user) => setUser(user);
-	const logout = () => setUser(null);
+	const login = useCallback((user) => setUser(user), []);
+	const logout = useCallback(() => setUser(null), []);
 
-	const value = {
-		user,
-		login,
-		logout,
-	};
+	const value = useMemo(
+		() => ({
+			user,
+			login,
+			logout,
+		}),
+		[user, login, logout]
+	);
 
 	return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

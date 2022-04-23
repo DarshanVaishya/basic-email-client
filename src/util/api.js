@@ -24,7 +24,7 @@ export const FAKE_EMAILS = [
 	},
 ];
 
-const LOTS_OF_EMAILS = Array(1000)
+const LOTS_OF_EMAILS = Array(2000)
 	.fill(0)
 	.map((_) => {
 		let email = FAKE_EMAILS[Math.floor(Math.random() * FAKE_EMAILS.length)];
@@ -55,7 +55,7 @@ export function login(username, password) {
 export function fetchEmails() {
 	return new Promise((resolve) => {
 		setTimeout(() => {
-			resolve(FAKE_EMAILS);
+			resolve(LOTS_OF_EMAILS);
 		}, 300);
 	});
 }

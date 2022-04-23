@@ -1,13 +1,11 @@
 import { createRoot } from "react-dom/client";
 import React from "react";
 
+import "./index.css";
 import LoginPage from "./components/LoginPage";
 import MainPage from "./components/MainPage";
-import { UserProvider, useUser } from "./contexts/UserContext";
-import { EmailProvider } from "./contexts/EmailContext";
-
-import "./index.css";
-import { NotifyProvider } from "./contexts/NotifyContext";
+import { useUser } from "./contexts/UserContext";
+import { Providers } from "./util/Providers";
 
 function Root() {
 	const user = useUser();
@@ -16,11 +14,7 @@ function Root() {
 
 const root = createRoot(document.querySelector("#root"));
 root.render(
-	<NotifyProvider>
-		<UserProvider>
-			<EmailProvider>
-				<Root />
-			</EmailProvider>
-		</UserProvider>
-	</NotifyProvider>
+	<Providers>
+		<Root />
+	</Providers>
 );
