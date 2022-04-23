@@ -1,6 +1,8 @@
 import React, { useContext, useReducer } from "react";
 import { useEffect } from "react";
-import { fetchEmails } from "../api";
+import { fetchEmails, fetchLatestEmails } from "../api";
+import { useNotify } from "./NotifyContext";
+import { useUser } from "./UserContext";
 
 const EmailContext = React.createContext();
 
@@ -9,6 +11,7 @@ const ACTIONS = {
 	SUCCESS: "success",
 	ERROR: "error",
 	SELECT_EMAIL: "select_email",
+	ADD_EMAIL: "add_email",
 };
 
 function reducer(state, action) {
@@ -36,6 +39,11 @@ function reducer(state, action) {
 				...state,
 				currentEmail: action.email,
 			};
+		case ACTIONS.ADD_EMAIL:
+			return {
+				...state,
+				emails: [...state.emails, ...action.emails],
+			};
 		default:
 			return state;
 	}
@@ -48,6 +56,8 @@ export function EmailProvider({ children }) {
 		error: null,
 		currentEmail: null,
 	});
+	const user = useUser();
+	const { addMessage } = useNotify();
 
 	useEffect(() => {
 		dispatch({ type: ACTIONS.BEGIN });
@@ -56,6 +66,25 @@ export function EmailProvider({ children }) {
 			.then((emails) => dispatch({ type: ACTIONS.SUCCESS, emails }))
 			.catch((error) => dispatch({ type: ACTIONS.ERROR, error }));
 	}, []);
+
+	useEffect(() => {
+		const refresh = () => {
+			if (!state.loading) {
+				fetchLatestEmails().then((emails) => {
+					if (emails.length > 0) {
+						dispatch({ type: ACTIONS.ADD_EMAIL, emails });
+						addMessage(
+							`${emails.length} email${emails.length > 1 ? "s" : ""} arrived.`
+						);
+					}
+				});
+			}
+		};
+
+		let timer;
+		if (user) timer = setInterval(refresh, 3000);
+		return () => clearInterval(timer);
+	}, [user]);
 
 	const setCurrentEmail = (email) => {
 		dispatch({ type: ACTIONS.SELECT_EMAIL, email });
